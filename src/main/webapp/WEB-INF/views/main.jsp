@@ -10,6 +10,13 @@
 </head>
 <body>
 <h2>Main Page</h2>
+<h3>Manage users</h3>
+<c:forEach items="${ users }" var="user">
+	<p> ${user.getUsername() } </p>
+	<p> ${user.getFirstName() } </p>
+</c:forEach>
+
+
 <c:choose>
 	<c:when test="${not empty retrievedUser}" >
 		<form action="logout" method="post">

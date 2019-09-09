@@ -1,5 +1,8 @@
 package com.fdmgroup.springmvcproject.data;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
@@ -48,5 +51,17 @@ public class UserDao {
 	}
 		
 		return user;
+	}
+	
+	public List<User> getAllUsers() {
+		EntityManager em = emf.createEntityManager();
+		List<User> users = new ArrayList<User>();
+		try {
+			users = em.createNamedQuery("findAll", User.class).getResultList();
+		} finally {
+			em.close();
+		}
+		return users;
+
 	}
 }

@@ -1,5 +1,7 @@
 package com.fdmgroup.springmvcproject.presentation;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -8,7 +10,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.fdmgroup.springmvcproject.data.UserDao;
 import com.fdmgroup.springmvcproject.domain.User;
@@ -29,8 +33,22 @@ public class MainController {
 	private UserDao dao;
 
 	@RequestMapping(value = { "/", "/home", "*/home" })
-	public String goHome() {
+	public String goHome(Model model) {
+		model.addAttribute("users", dao.getAllUsers());
 		return "main";
+	}
+	@RequestMapping(value = "/userData", method = RequestMethod.GET, produces={"application/xml", "application/json"})
+	public @ResponseBody User getUser() {
+		User user = new User();
+		user.setFirstName("seyba");
+		user.setLastName("Traore");
+		user.setEmailAddress("mtraore@fdm.com");
+		user.setUsername("mtraore");
+		return user;
+	}
+	@RequestMapping(value = "/usersData", method = RequestMethod.GET, produces={"application/xml", "application/json"})
+	public @ResponseBody List<User> getUsers() {
+		return dao.getAllUsers();
 	}
 
 	@RequestMapping("toRegister")
